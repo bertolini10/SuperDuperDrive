@@ -30,4 +30,12 @@ public class Note {
     public void setUserid(Integer userid) {
         this.userid = userid;
     }
+
+    public String getNotedescription() {
+        return notedescription;
+    }
+
+    public void setNotedescription(String notedescription) {
+        this.notedescription = notedescription;
+    }
 }
