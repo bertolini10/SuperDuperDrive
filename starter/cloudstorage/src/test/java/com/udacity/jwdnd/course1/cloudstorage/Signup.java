@@ -7,19 +7,19 @@ import org.openqa.selenium.support.PageFactory;
 
 public class Signup {
 
-    @FindBy(css = "#inputFirstName")
+    @FindBy(id = "inputFirstName")
     private WebElement firstNameField;
 
-    @FindBy(css = "#inputLastName")
+    @FindBy(id = "inputLastName")
     private WebElement lastNameField;
 
-    @FindBy(css = "#inputUsername")
+    @FindBy(id = "inputUsername")
     private WebElement usernameField;
 
-    @FindBy(css = "#inputPassword")
+    @FindBy(id = "inputPassword")
     private WebElement passwordField;
 
-    @FindBy(css = "#submit-button")
+    @FindBy(id = "submit-button")
     private WebElement submitButton;
 
     public Signup(WebDriver webDriver) {

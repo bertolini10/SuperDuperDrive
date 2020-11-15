@@ -7,13 +7,13 @@ import org.openqa.selenium.support.PageFactory;
 
 public class Login {
 
-    @FindBy(css="#inputUsername")
+    @FindBy(id="inputUsername")
     private WebElement usernameField;
 
-    @FindBy(css="#inputPassword")
+    @FindBy(id="inputPassword")
     private WebElement passwordField;
 
-    @FindBy(css="#submit-button")
+    @FindBy(id="LoginButton")
     private WebElement submitButton;
 
     public Login(WebDriver webDriver) {
