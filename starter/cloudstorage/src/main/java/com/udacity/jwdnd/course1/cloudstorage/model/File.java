@@ -7,11 +7,11 @@ public class File {
     private String contenttype;
     private String filesize;
     private Integer userid;
-    private String filedata;
+    private byte[] filedata;
 
     public File(){}
 
-    public File(Integer fileid,String filename,String contenttype, String filesize, Integer userid, String filedata){
+    public File(Integer fileid,String filename,String contenttype, String filesize, Integer userid, byte[] filedata){
         this.fileid = fileid;
         this.filename = filename;
         this.contenttype = contenttype;
@@ -60,11 +60,11 @@ public class File {
         this.userid = userid;
     }
 
-    public String getFiledata() {
+    public byte[] getFiledata() {
         return filedata;
     }
 
-    public void setFiledata(String filedata) {
+    public void setFiledata(byte[] filedata) {
         this.filedata = filedata;
     }
 }

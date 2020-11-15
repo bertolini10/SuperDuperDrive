@@ -56,8 +56,7 @@ public class EncryptionService {
             gen.init(128); /* 128-bit AES */
             SecretKey secret = gen.generateKey();
             byte[] binary = secret.getEncoded();
-            String key = String.format("%032X", new BigInteger(+1, binary));
-            return key;
+            return String.format("%032X", new BigInteger(+1, binary));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -26,8 +26,6 @@ public class NoteController {
             User user = userService.getUser(authentication.getName());
             note.setUserid(user.getUserid());
 
-
-
             if (note.getNoteid() == null){
                 this.noteService.addNote(note);
                 model.addAttribute("notes", this.noteService.getNotes(userService.getUser(authentication.getName())));
@@ -41,11 +39,7 @@ public class NoteController {
                 model.addAttribute("message", "Note Updated successfully");
             }
             return "result";
-
-
     }
-
-
 
     @GetMapping("/delete/{noteId}")
     public String deleteNote(@PathVariable Integer noteId,Model model) {

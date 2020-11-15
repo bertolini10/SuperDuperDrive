@@ -13,7 +13,7 @@
             <div id="logoutDiv">
                 <form action="#" th:action="@{/logout}" method="POST">
                     <h1 class="display-5" th:text="${user.username}"></h1>
-                    <button type="submit" class="btn btn-secondary float-right">Logout</button>
+                    <button id="LogoutButton" type="submit" class="btn btn-secondary float-right">Logout</button>
                 </form>
             </div>
             <div id="contentDiv" style="clear: right;">
@@ -26,7 +26,7 @@
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
-                        <form action="#" enctype="multipart/form-data" method="POST">
+                        <form action="#" th:action="@{/file/add}" enctype="multipart/form-data" method="POST">
                             <div class="container">
                                 <div class="row" style="margin: 1em;">
                                     <div class="col-sm-2">
@@ -50,12 +50,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr th:each="file : ${files}">
                                     <td>
-                                        <a target="_blank" class="btn btn-success">View</a>
-                                        <a  class="btn btn-danger">Delete</a>
+                                        <a target="_blank" class="btn btn-success" th:href="@{/file/get/{fileId}(fileId=${file.getFileId()})}">View</a>
+                                        <a  class="btn btn-danger" th:href="@{/file/delete/{fileId}    (fileId=${file.getFileId()})}">Delete</a>
                                     </td>
-                                    <th scope="row">ExampleFile.txt</th>
+                                    <th scope="row" th:text="${file.getFilename()}"> </th>
+
                                 </tr>
                                 </tbody>
                             </table>

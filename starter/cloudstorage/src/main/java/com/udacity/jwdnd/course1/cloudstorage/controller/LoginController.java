@@ -11,7 +11,6 @@ public class LoginController {
 
         @GetMapping()
         public String loginView() {
-            System.out.println("login");
             return "login";
         }
 

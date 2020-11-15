@@ -5,10 +5,18 @@ import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/file")
@@ -20,20 +28,38 @@ public class FileController {
     private UserService userService;
 
     @PostMapping("/add")
-    public String postFile(Authentication authentication, @ModelAttribute(value = "file") File file, Model model) {
+    public String postFile(Authentication authentication, @RequestParam("fileUpload") MultipartFile file, Model model) {
 
         User user = userService.getUser(authentication.getName());
-        file.setUserid(user.getUserid());
+        try {
+            File newFile = new File(null, file.getOriginalFilename(),file.getContentType(),Long.toString(file.getSize()), user.getUserid(),file.getBytes());
 
-        if (file.getFileId() == null){
-            this.fileService.addFile(file);
-            model.addAttribute("message", "File Added successfully");
-        }else {
-            this.fileService.updateFile(file);
-            model.addAttribute("message", "File Updated successfully");
+            File oldFile = fileService.getFilebyNameAndUser(newFile.getFilename(),newFile.getUserid());
+
+            if (oldFile != null){
+                model.addAttribute("error", true);
+                model.addAttribute("message", "Sorry, two files with the same name is not allowed!");
+
+            }else{
+                model.addAttribute("add", true);
+                if (newFile.getFileId() == null){
+                    this.fileService.addFile(newFile);
+                    model.addAttribute("message", "File Added successfully");
+
+                }else {
+                    this.fileService.updateFile(newFile);
+                    model.addAttribute("message", "File Updated successfully");
+
+                }
+
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
         model.addAttribute("files", this.fileService.getFiles(user));
-        model.addAttribute("add", true);
         return "result";
     }
 
@@ -49,6 +75,18 @@ public class FileController {
 
         }
         return "result";
+
+    }
+
+    //This look likes the best way to see the files
+    @GetMapping("/get/{fileId}")
+    public ResponseEntity<Resource> viewFile(@PathVariable Integer fileId){
+
+        File file = fileService.getFile(fileId);
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(file.getContenttype())).
+                header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\"" + file.getFilename() + "\"")
+                .body(new ByteArrayResource(file.getFiledata()));
+
 
     }
 

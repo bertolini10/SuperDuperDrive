@@ -37,6 +37,10 @@ public class FileService {
         return fileMapper.getFile(fileid);
     }
 
+    public File getFilebyNameAndUser(String filename,Integer userid) {
+        return fileMapper.getFileByUserAndName(userid,filename);
+    }
+
     public List<File> getFiles(User user) {
         return fileMapper.getAllFilesbyUser(user.getUserid());
     }
