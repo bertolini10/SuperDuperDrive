@@ -49,6 +49,7 @@ public class EncryptionService {
         return new String(decryptedValue);
     }
 
+    //I was getting a problem to generate with RANDOM, than I found this on UDACITY knowledge
     public String getSecureKey() {
         try {
             KeyGenerator gen = KeyGenerator.getInstance("AES");

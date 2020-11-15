@@ -15,15 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/note")
 public class NoteController {
 
+    @Autowired
     private NoteService noteService;
     @Autowired
     private UserService userService;
-
-
-    public NoteController(NoteService noteService) {
-        this.noteService = noteService;
-
-    }
 
     @PostMapping("/add")
     public String postNote(Authentication authentication, @ModelAttribute(value = "note")  Note note, Model model) {
@@ -43,7 +38,7 @@ public class NoteController {
                 this.noteService.updateNote(note);
                 model.addAttribute("notes", this.noteService.getNotes(userService.getUser(authentication.getName())));
                 model.addAttribute("add", true);
-                model.addAttribute("message", "Note Updater successfully");
+                model.addAttribute("message", "Note Updated successfully");
             }
             return "result";
 
@@ -53,14 +48,14 @@ public class NoteController {
 
 
     @GetMapping("/delete/{noteId}")
-    public String deleteNote(@PathVariable Integer noteId, Note note,Model model) {
+    public String deleteNote(@PathVariable Integer noteId,Model model) {
         try {
             this.noteService.deleteNote(noteId);
             model.addAttribute("delete", true);
             model.addAttribute("message", "Note Deleted successfully");
         }catch (Exception e ){
             model.addAttribute("error", true);
-            model.addAttribute("message", "Something went wrong");
+            model.addAttribute("message", "Something went wrong with Note");
 
         }
         return "result";

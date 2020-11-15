@@ -7,11 +7,11 @@ public class Credential {
     private String username;
     private String key;
     private String password;
-    private String dpassword;
+    private String dpassword; //Decrypted pass - not persisted on database
     private Integer userid;
 
 
-    public Credential(){};
+    public Credential(){}
 
     public Credential(Integer credentialid, String url, String username,String password, String key, Integer userid,String dpassword) {
         this.credentialid = credentialid;

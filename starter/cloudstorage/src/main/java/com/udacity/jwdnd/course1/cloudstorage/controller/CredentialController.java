@@ -13,23 +13,17 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/credential")
 public class CredentialController {
+
+    @Autowired
     private CredentialService credentialService;
     @Autowired
     private UserService userService;
-
-    public CredentialController(CredentialService credentialService) {
-        this.credentialService = credentialService;
-
-    }
-
 
     @PostMapping("/add")
     public String postCredential(Authentication authentication, @ModelAttribute(value = "credential") Credential credential, Model model) {
 
         User user = userService.getUser(authentication.getName());
         credential.setUserid(user.getUserid());
-
-
 
         if (credential.getCredentialid() == null){
             this.credentialService.addCredential(credential);
@@ -41,21 +35,17 @@ public class CredentialController {
         model.addAttribute("credentials", this.credentialService.getCredentials(user));
         model.addAttribute("add", true);
         return "result";
-
-
     }
 
-
-
     @GetMapping("/delete/{credentialId}")
-    public String deleteCredential(@PathVariable Integer credentialId, Credential credential, Model model) {
+    public String deleteCredential(@PathVariable Integer credentialId,Model model) {
         try {
             this.credentialService.deleteCredential(credentialId);
             model.addAttribute("delete", true);
             model.addAttribute("message", "Credential Deleted successfully");
         }catch (Exception e ){
             model.addAttribute("error", true);
-            model.addAttribute("message", "Something went wrong");
+            model.addAttribute("message", "Something went wrong Credential");
 
         }
         return "result";
