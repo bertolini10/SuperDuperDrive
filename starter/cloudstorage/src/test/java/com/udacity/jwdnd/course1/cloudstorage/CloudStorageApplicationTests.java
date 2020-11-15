@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
@@ -28,7 +29,7 @@ class CloudStorageApplicationTests {
 	@BeforeEach
 	public void beforeEach() {
 		this.driver = new ChromeDriver();
-		this.baseURL = baseURL = "http://localhost:" + port;
+		this.baseURL = "http://localhost:" + port;
 	}
 
 	@AfterEach
@@ -68,8 +69,8 @@ class CloudStorageApplicationTests {
 
 	@Test
 	public void TestSignUpAccess() throws InterruptedException {
-		String username = "crisssssss";
-		String password = "masterrrrrrr";
+		String username = "hhhhhhhh";
+		String password = "hhhh";
 		String name = "crissss";
 		String last = "crissss";
 		driver.get(baseURL + "/signup");
@@ -93,6 +94,58 @@ class CloudStorageApplicationTests {
 		Thread.sleep(3_000);
 	}
 
+
+	@Test
+	public void TestNoteAddUptDelete() throws InterruptedException {
+		String username = "cris";
+		String password = "master";
+	    WebDriverWait wait = new WebDriverWait(driver, 1000);
+		driver.get(baseURL + "/login");
+    	Login loginPage = new Login(driver);
+		loginPage.login(username, password);
+
+		Assertions.assertEquals("Home", driver.getTitle());
+
+		Thread.sleep(3_000);
+		Note notesTabPage = new Note(driver);
+		Thread.sleep(3_000);
+		notesTabPage.navNotes(driver);
+
+		notesTabPage.createNote("My Test Note", " My Test Description");
+
+		notesTabPage.navNotes(driver);
+		notesTabPage.editNote("My Editied Test Note", "My Edited Test Description");
+
+		notesTabPage.navNotes(driver);
+		notesTabPage.deleteNote();
+
+	}
+
+	@Test
+	public void TestCredentialAddUptDelete() throws InterruptedException {
+		String username = "cris";
+		String password = "master";
+		WebDriverWait wait = new WebDriverWait(driver, 1000);
+		driver.get(baseURL + "/login");
+		Login loginPage = new Login(driver);
+		loginPage.login(username, password);
+
+		Assertions.assertEquals("Home", driver.getTitle());
+		Thread.sleep(3_000);
+		Credential credential = new Credential(driver);
+		Thread.sleep(3_000);
+
+		credential.navCredentials(driver);
+
+		credential.createCredential("bbbbbbb", "bbbbbbbb", "bbbbbbbb");
+		credential.navCredentials(driver);
+		credential.editCredential("aaaaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa");
+
+		credential.navCredentials(driver);
+		credential.deleteCredential();
+
+
+	}
 
 
 }
