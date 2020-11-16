@@ -15,8 +15,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CloudStorageApplicationTests {
 
-	private final String username = "vvvvv";
-	private final String password = "vvvvvv";
+	private final String username = "v1";
+	private final String password = "v111";
 	private final String name = "cris";
 	private String last = "bertolini";
 
